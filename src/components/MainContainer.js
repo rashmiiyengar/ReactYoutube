@@ -6,7 +6,7 @@ import VedioContainer from './VedioContainer'
 const MainContainer = () => {
   return (
     <div className=''>
-      MainContainer
+     
       <ButtonList />
       <VedioContainer />
     </div>

@@ -2,6 +2,7 @@ import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
@@ -11,9 +12,9 @@ const SideBar = () => {
       <div className="p-5 shadow-lg w-20 h-screen">
         <ul>
           <div className="flex bg-slate-200 rounded-md mt-4">
-            <li>
+          <Link to="/"> <li>
               <HomeIcon />
-            </li>
+            </li></Link>
           </div>
           <div className="flex rounded-md mt-4">
             <li>
@@ -29,15 +30,16 @@ const SideBar = () => {
     <div className="p-5 shadow-lg w-48 h-screen">
       <ul>
         <div className="flex bg-slate-200 rounded-md mt-4">
-          <li>
-            <HomeIcon />{" "}
+         <Link to="/"> <li>
+            <HomeIcon />
           </li>
-          <li className="ml-6">Home</li>
+          <li className="ml-12 ">Home</li>
+          </Link>
         </div>
 
         <div className="flex rounded-md mt-4">
           <li>
-            <SubscriptionsIcon />{" "}
+            <SubscriptionsIcon />
           </li>
           <li className="ml-6">Subscriptions</li>
         </div>
