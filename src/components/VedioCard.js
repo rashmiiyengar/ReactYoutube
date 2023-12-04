@@ -19,4 +19,13 @@ const VedioCard = ({ info }) => {
   );
 };
 
+
+export const AdVedioCard = ({info})=>{
+return (
+<div className=" p-1 m-1 border border-slate-950">
+  <VedioCard info={info}/>
+  </div>
+);
+};
+
 export default VedioCard;
