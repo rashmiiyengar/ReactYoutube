@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,12 +13,22 @@ const Head = () => {
 
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const searchCache = useSelector((store) => store.search);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     //make an api call after every key press
     //but if diff btw 2 api calls is < 200ms
     //DECLINE the API Call
 
-    const timer = setTimeout(() => getSearchSuggestions(), 200);
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
 
     return () => {
       clearTimeout(timer);
@@ -46,9 +57,14 @@ settimeout(200) make an API Call
     const json = await data.json();
     setSuggestions(json[1]);
     //console.log(json);
+
+    //update in cache dispatch action
+    dispatch(cacheResults({
+      [searchQuery]:json[1]
+    }));
   };
 
-  const dispatch = useDispatch(); //Hook coming from react-redux library
+  //const dispatch = useDispatch(); //Hook coming from react-redux library
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -80,8 +96,8 @@ settimeout(200) make an API Call
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={()=>setShowSuggestions(true)}
-            onBlur={()=>setShowSuggestions(false)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
           />
           <button className="border border-gray px-5 py-1 bg-gray-100 rounded-r-full">
             <SearchIcon />
