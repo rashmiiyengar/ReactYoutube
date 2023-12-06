@@ -6,6 +6,7 @@ import CommentsContainer from "./CommentsContainer";
 
 import Like from "./Like";
 import { selectVedio } from "../utils/vedioSlice";
+import LiveChat from "./LiveChat";
 
 const WatchPage = () => {
   const selectedVedio = useSelector(selectVedio);
@@ -19,8 +20,9 @@ const WatchPage = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col">
-      <div className="px-5 ">
+    <div className="flex flex-col w-full">
+      <div className="px-5 flex">
+        <div>
         <iframe
           width="1200"
           height="600"
@@ -30,6 +32,10 @@ const WatchPage = () => {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
         ></iframe>
+        </div>
+        <div className="w-full">
+         <LiveChat/>
+        </div>
       </div>
       <h1 className="px-5 m-4 font-bold text-xl">{selectedVedio?.snippet?.title}</h1>
       <Like />
